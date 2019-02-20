@@ -18,7 +18,7 @@ local set_up_base = function ()
             {name = 'key', type = 'string'},
             {name = 'value', type = 'string'}
         })
-        box.space.key_value:create_index('primary', {parts = {'key'}, type = 'HASH'})
+        box.space.key_value:create_index('primary', {parts = {'key'}})
         box.schema.user.grant('guest', 'read,write,execute', 'universe',
             nil, {if_not_exists = true})
         end
@@ -32,10 +32,11 @@ local function start_server()
         port = 8080
     end
     local server = require('http.server').new(nil, port)
-    server:route({ path = '/kv/:id', method = 'GET'}, handlers.get)
-    server:route({ path = '/kv', method = 'POST'}, handlers.add)
-    server:route({ path = '/kv/:id', method = 'DELETE'}, handlers.delete)
-    server:route({ path = '/kv/:id', method = 'PUT'}, handlers.update)
+    server:route({ path = '/kv/:id', method = 'GET' }, handlers.get)
+    server:route({ path = '/kv', method = 'POST' }, handlers.add)
+    server:route({ path = '/kv/:id', method = 'DELETE' }, handlers.delete)
+    server:route({ path = '/kv/:id', method = 'PUT' }, handlers.update)
+    server:route({ path = '/', method = 'GET', file = 'main.html.lua' })
     server:start()
     log.info('Server started on port = %d', port)
 end
