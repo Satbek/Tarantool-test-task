@@ -1,15 +1,8 @@
 #!/usr/bin/env tarantool
 
-util = {}
-local json = require('json')
+require'strict'.on()
 
-local function is_valid_json(body)
-    local result = true
-    if not pcall(function() json.decode(body) end) then
-        result = false
-    end
-    return result
-end
+util = {}
 
 local function get_map_size(map)
     local size = 0
@@ -32,7 +25,6 @@ local function is_valid_json_fields(body, method)
 end
 
 util = {
-    is_valid_json = is_valid_json,
     is_valid_json_fields = is_valid_json_fields
 }
 

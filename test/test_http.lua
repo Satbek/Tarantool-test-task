@@ -1,11 +1,16 @@
 #!/usr/bin/env tarantool
+
 require'strict'.on()
-box.cfg{}
 
 local http_client = require('http.client')
 local tap = require('tap')
 
-local URI = "localhost:8080"
+local port = os.getenv('PORT')
+if port == nil then
+    port = 8080
+end
+
+local URI = string.format("localhost:%d", port)
 
 test_get = tap.test("test GET, get key")
 test_get:plan(2)
@@ -110,3 +115,5 @@ test_put:test("incorrect body", function(test)
 end)
 
 test_put:check()
+
+os.exit(0)
