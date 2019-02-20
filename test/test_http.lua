@@ -116,4 +116,20 @@ end)
 
 test_put:check()
 
+test_request_method_case = tap.test("Different cases of method in request")
+
+test_request_method_case:plan(1)
+test_request_method_case:test("different cases", function(test)
+    test:plan(2)
+    http_client.request("POST", URI .. "/kv", '{"key":"test", "value":"1"}')
+    local resp_bad_json = http_client.request("put", URI .. "/kv/test", '{"value":"1", "extra":"2"}')
+    test:is(resp_bad_json.status, 400)
+    http_client.delete(URI .. "/kv/test")
+    local resp_no_key = 
+        http_client.request("post", URI .. "/kv",'{"value":"1", "key":"test", "extra":"test"}')
+    test:is(resp_no_key.status, 400)
+    http_client.delete(URI .. "/kv/test")
+end)
+
+test_request_method_case:check()
 os.exit(0)
