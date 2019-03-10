@@ -1,4 +1,4 @@
-# Tarantool-test-task : Implement ket-value storage
+# Tarantool-test-task : Implement key-value storage
 
 Application: https://murmuring-castle-28701.herokuapp.com
 
